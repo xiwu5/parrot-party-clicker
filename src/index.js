@@ -13,16 +13,36 @@ const registerEvents = () => {
     imgParrot.addEventListener('click', () => {
         state.clicks += 1;
         parrotCountContainer.textContent = `Clicks: ${state.clicks}`;
-        // 3. Add an effect whenever the clickCount
-        //    reaches a specific number.
-        //    (Ex: make parrot bigger, smaller, change the text/emoji,
-        //    etc.)
 
+        // Trigger the little 'pop' animation on the heading every increment
+        parrotCountContainer.classList.remove('pop');
+        void parrotCountContainer.offsetWidth; // force reflow
+        parrotCountContainer.classList.add('pop');
+
+        // Milestone effects
         if (state.clicks === 5) {
             imgParrot.classList.add('big-parrot');
         } else if (state.clicks === 10) {
             imgParrot.classList.remove('big-parrot');
             imgParrot.classList.add('small-parrot');
+        }
+
+        if (state.clicks === 15) {
+            // quick spin while preserving current scale
+            imgParrot.classList.add('spin');
+            setTimeout(() => imgParrot.classList.remove('spin'), 900);
+        }
+
+        if (state.clicks === 20) {
+            // glow the counter briefly
+            parrotCountContainer.classList.add('glow');
+            setTimeout(() => parrotCountContainer.classList.remove('glow'), 1200);
+        }
+
+        if (state.clicks > 0 && state.clicks % 25 === 0) {
+            // page-wide celebratory background
+            document.body.classList.add('rainbow');
+            setTimeout(() => document.body.classList.remove('rainbow'), 2000);
         }
     });
 
@@ -32,6 +52,10 @@ const registerEvents = () => {
     resetButton.addEventListener('click', () => {
     state.clicks = 0;
     parrotCountContainer.textContent = `Clicks: ${state.clicks}`;
+    // cleanup any visual state
+    imgParrot.classList.remove('big-parrot', 'small-parrot', 'spin');
+    parrotCountContainer.classList.remove('pop', 'glow');
+    document.body.classList.remove('rainbow');
     });
 };
 
