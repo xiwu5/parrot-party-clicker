@@ -23,4 +23,12 @@ body {
     margin: 20%;
     user-select: none;
   }
+
+  .small-parrot {
+    transform: scale(0.5);
+  }
+
+  .big-parrot {
+    transform: scale(1.5);
+  }
   
